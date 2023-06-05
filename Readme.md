@@ -1,0 +1,1 @@
+# Sentence similarity model based on Barlow Twins loss function
