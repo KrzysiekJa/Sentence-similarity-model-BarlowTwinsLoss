@@ -1,8 +1,6 @@
 import os
 import csv
-import numpy as np
-from typing import List, Union
-import math
+import logging
 from tqdm.autonotebook import trange
 
 import torch
@@ -12,6 +10,8 @@ from torch.utils.tensorboard import SummaryWriter
 
 from sentence_transformers.evaluation import SentenceEvaluator, SimilarityFunction
 from sentence_transformers.readers import InputExample
+
+logger = logging.getLogger(__name__)
 
 
 class LossEvaluator(SentenceEvaluator):
