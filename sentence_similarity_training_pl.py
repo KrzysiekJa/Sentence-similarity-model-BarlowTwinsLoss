@@ -171,7 +171,7 @@ def main( run ):
         mode="read-only"
     )
     
-    run_pandas_df = project_read_only.fetch_runs_table(tag=["similarity"]).to_pandas()
+    run_pandas_df = project_read_only.fetch_runs_table(tag=["similarity", "pl"]).to_pandas()
     best_testing_result = run_pandas_df["test/test_accuracy"].iloc[0]
     
     if test_evaluation > best_testing_result:

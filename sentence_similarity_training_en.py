@@ -27,6 +27,7 @@ from evaluators import LossEvaluator
 from losses import BarlowTwinsLoss
 
 
+os.environ["NEPTUNE_PROJECT"] = "kjarek/tests"
 run = neptune.init_run(
     api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI3ZDBhYTUwZS0yYmI5LTQyMmEtYmEwYi1iNjFlMzUyYjY1NGMifQ==",
     capture_hardware_metrics=True,
@@ -169,7 +170,7 @@ def main( run ):
         mode="read-only"
     )
     
-    run_pandas_df = project_read_only.fetch_runs_table(tag=["similarity"]).to_pandas()
+    run_pandas_df = project_read_only.fetch_runs_table(tag=["similarity", "en"]).to_pandas()
     best_testing_result = run_pandas_df["test/test_accuracy"].iloc[0]
     
     if test_evaluation > best_testing_result:
