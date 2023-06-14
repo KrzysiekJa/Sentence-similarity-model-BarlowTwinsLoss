@@ -64,8 +64,8 @@ def main( run ):
     ########################################################################
     # Training parameters
     ########################################################################
-    model_name = 'allegro/herbert-base-cased'
-    lambda_    = 5e-1
+    model_name = os.environ["model_name"] # 'allegro/herbert-base-cased'
+    lambda_    = os.environ["lambda_"]
     batch_size = 32
     num_epochs = 12
     model_save_path = 'output/fine_tuning_benchmark-'+model_name.replace('/', '_')+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M")
