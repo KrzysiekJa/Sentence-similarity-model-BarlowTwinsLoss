@@ -28,21 +28,6 @@ from evaluators import LossEvaluator
 from losses import BarlowTwinsLoss
 
 
-run = neptune.init_run(
-    api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI3ZDBhYTUwZS0yYmI5LTQyMmEtYmEwYi1iNjFlMzUyYjY1NGMifQ==",
-    capture_hardware_metrics=True,
-    capture_stderr=True,
-    capture_stdout=True
-)
-
-
-
-def init_learning_env( run ):
-    torch.cuda.empty_cache()
-    os.system('nvidia-smi')
-    run["sys/name"] = "basic-colab-example"
-    run["sys/tags"].add(["colab", "tests", "similarity", "pl"])
-
 
 def set_seeds(seed: int):
     # Setting all seeds to make results reproducible
@@ -55,6 +40,21 @@ def set_seeds(seed: int):
     os.environ['PYTHONHASHSEED'] = str( seed )
 
 
+def init_learning_env():
+    torch.cuda.empty_cache()
+    os.environ["NEPTUNE_PROJECT"] = "kjarek/tests"
+    run = neptune.init_run(
+        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI3ZDBhYTUwZS0yYmI5LTQyMmEtYmEwYi1iNjFlMzUyYjY1NGMifQ==",
+        capture_hardware_metrics=True,
+        capture_stderr=True,
+        capture_stdout=True
+    )
+    run["sys/name"] = "basic-colab-example"
+    run["sys/tags"].add(["colab", "tests", "similarity", "pl"])
+    print( os.system('nvidia-smi') )
+    return run
+
+
 def main( run ):
     ########################################################################
     # Checking if dataset exsist. If not, needed to download and extract
@@ -64,10 +64,10 @@ def main( run ):
     ########################################################################
     # Training parameters
     ########################################################################
-    model_name = os.environ["model_name"] # 'allegro/herbert-base-cased'
-    lambda_    = os.environ["lambda_"]
+    model_name = os.environ["MODEL_NAME"] # 'allegro/herbert-base-cased'
+    lambda_    = os.environ["LAMBDA_"]
     batch_size = 32
-    num_epochs = 12
+    num_epochs = 4
     model_save_path = 'output/fine_tuning_benchmark-'+model_name.replace('/', '_')+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M")
     
     run["model/name"] = model_name
@@ -184,8 +184,8 @@ def main( run ):
 
 if __name__ =='__main__':
     seed = 12 # on basis of: https://arxiv.org/pdf/2002.06305.pdf
-    init_env( run )
     set_seeds( seed )
+    run = init_learning_env()
     main( run )
 
 
