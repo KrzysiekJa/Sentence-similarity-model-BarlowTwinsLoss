@@ -39,7 +39,7 @@ def set_seeds(seed: int):
     os.environ['PYTHONHASHSEED'] = str( seed )
 
 
-def init_learning_env():
+def init_learning_env(language: str):
     torch.cuda.empty_cache()
     os.environ["NEPTUNE_PROJECT"] = "kjarek/tests"
     run = neptune.init_run(
@@ -49,12 +49,12 @@ def init_learning_env():
         capture_stdout=True
     )
     run["sys/name"] = "basic-colab-example"
-    run["sys/tags"].add(["colab", "tests", "similarity", "en"])
+    run["sys/tags"].add(["colab", "tests", "similarity", language])
     print( os.system('nvidia-smi') )
     return run
 
 
-def main( run ):
+def main( run, language: str ):
     ########################################################################
     # Checking if dataset exsist. If not, needed to download and extract
     ########################################################################
@@ -85,7 +85,7 @@ def main( run ):
     run["parameters/batch_size"] = batch_size
     run["parameters/number_of_epochs"] = num_epochs
     run["dataset/name"] = sts_dataset_path[:-7]
-    run["dataset/language"] = 'en'
+    run["dataset/language"] = language
     
     ########################################################################
     # Loading a pre-trained sentence transformer model
@@ -182,9 +182,10 @@ def main( run ):
 
 if __name__ =='__main__':
     seed = 12 # on basis of: https://arxiv.org/pdf/2002.06305.pdf
+    language = 'en'
     set_seeds( seed )
-    run = init_learning_env()
-    main( run )
+    run = init_learning_env( language )
+    main( run, language )
 
 
 
