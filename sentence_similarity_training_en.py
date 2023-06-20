@@ -1,14 +1,11 @@
 import os
-import shutil
 import gzip
 import csv
 import math
 import time
-import random
 import numpy as np
 from datetime import datetime
 
-import neptune
 import torch
 from torch import nn, Tensor
 from torch.utils.data import DataLoader
@@ -25,33 +22,8 @@ except ImportError:
 from sentence_transformer import SentenceTransformer
 from evaluators import LossEvaluator
 from losses import BarlowTwinsLoss
+from utility_functions import *
 
-
-
-def set_seeds(seed: int):
-    # Setting all seeds to make results reproducible
-    torch.manual_seed( seed )
-    torch.cuda.manual_seed_all( seed )
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    np.random.seed( seed )
-    random.seed( seed )
-    os.environ['PYTHONHASHSEED'] = str( seed )
-
-
-def init_learning_env(language: str):
-    torch.cuda.empty_cache()
-    os.environ["NEPTUNE_PROJECT"] = "kjarek/tests"
-    run = neptune.init_run(
-        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI3ZDBhYTUwZS0yYmI5LTQyMmEtYmEwYi1iNjFlMzUyYjY1NGMifQ==",
-        capture_hardware_metrics=True,
-        capture_stderr=True,
-        capture_stdout=True
-    )
-    run["sys/name"] = "basic-colab-example"
-    run["sys/tags"].add(["colab", "tests", "similarity", language])
-    print( os.system('nvidia-smi') )
-    return run
 
 
 def main( run, language: str ):
@@ -62,7 +34,6 @@ def main( run, language: str ):
 
     if not os.path.exists(sts_dataset_path):
         util.http_get('https://sbert.net/datasets/stsbenchmark.tsv.gz', sts_dataset_path)
-    
     ########################################################################
     # Training parameters
     ########################################################################
@@ -71,8 +42,6 @@ def main( run, language: str ):
     batch_size = 32
     num_epochs = 4
     model_save_path = 'output/fine_tuning_benchmark-'+model_name.replace('/', '_')+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M")
-    
-    run["model/name"] = model_name
     params = {
         "optimizer": {
             "type": "AdamW",
@@ -80,18 +49,22 @@ def main( run, language: str ):
             "eps": 1e-12,
         }, 
     }
-    run["parameters"] = params
-    run["parameters/barlow_twins_lambda"] = lambda_
-    run["parameters/batch_size"] = batch_size
-    run["parameters/number_of_epochs"] = num_epochs
-    run["dataset/name"] = sts_dataset_path[:-7]
-    run["dataset/language"] = language
-    
+     
+    run = set_neptun_params(run, 
+        {
+            "model_name": model_name,
+            "params": params,
+            "lambda": lambda_,
+            "batch_size": batch_size,
+            "num_epochs": num_epochs,
+            "dataset_name": sts_dataset_path[:-7],
+            "language": language
+        }
+    )
     ########################################################################
     # Loading a pre-trained sentence transformer model
     ########################################################################
     model = SentenceTransformer(model_name)
-    
     ########################################################################
     # Loading and preparing data
     ########################################################################
@@ -128,10 +101,13 @@ def main( run, language: str ):
     evaluation_steps = len(train_dataloader) // 10
     warmup_steps = math.ceil( len(train_dataloader) * num_epochs * 0.1 )
     
-    run["parameters/train_steps"] = len(train_dataloader)
-    run["parameters/evaluation_steps"] = evaluation_steps
-    run["parameters/warmup_steps"] = warmup_steps
-    
+    run = set_neptun_train_params(run,
+        {
+            "train_steps": len(train_dataloader),
+            "evaluation_steps": evaluation_steps,
+            "warmup_steps": warmup_steps
+        }
+    )
     ########################################################################
     # Model training
     ########################################################################
@@ -149,12 +125,9 @@ def main( run, language: str ):
               output_path=model_save_path,
               training_samples=train_samples
     )
-
     end = time.perf_counter()
     
-    run["train/time_perf_seconds"].append( round(end - start, 2) )
-    run["train/time_perf_minutes"].append( round((end - start)/60, 3) )
-    
+    run = set_neptun_time_perf(run, end, start)
     ########################################################################
     # Testing process
     ########################################################################
@@ -162,21 +135,9 @@ def main( run, language: str ):
     
     test_evaluator = EmbeddingSimilarityEvaluator.from_input_examples(test_samples, main_similarity=SimilarityFunction.COSINE)
     test_evaluation = test_evaluator(model, output_path=model_save_path)
+    
     run["test/test_accuracy"].append(test_evaluation)
-    
-    project_read_only = neptune.init_project(
-        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI3ZDBhYTUwZS0yYmI5LTQyMmEtYmEwYi1iNjFlMzUyYjY1NGMifQ==",
-        mode="read-only"
-    )
-    
-    run_pandas_df = project_read_only.fetch_runs_table(tag=["similarity", "en"]).to_pandas()
-    best_testing_result = run_pandas_df["test/test_accuracy"].iloc[0]
-    
-    if test_evaluation > best_testing_result:
-        run["model/model"].upload(model_save_path)
-    shutil.rmtree(model_save_path)
-    
-    run.stop()
+    neptun_final_steps(run, language, model_save_path)
 
 
 
@@ -184,7 +145,7 @@ if __name__ =='__main__':
     seed = 12 # on basis of: https://arxiv.org/pdf/2002.06305.pdf
     language = 'en'
     set_seeds( seed )
-    run = init_learning_env( language )
+    run = init_learning_env( ["colab", "tests", "similarity", language] ) # returned: neptune.Run object
     main( run, language )
 
 
