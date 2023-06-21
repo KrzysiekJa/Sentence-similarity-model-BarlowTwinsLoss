@@ -133,7 +133,10 @@ def main( run, language: str ):
     ########################################################################
     model = SentenceTransformer(model_save_path)
     
-    test_evaluator = EmbeddingSimilarityEvaluator.from_input_examples(test_samples, main_similarity=SimilarityFunction.COSINE)
+    test_evaluator = EmbeddingSimilarityEvaluator.from_input_examples(
+                test_samples, 
+                main_similarity=SimilarityFunction.COSINE
+    )
     test_evaluation = test_evaluator(model, output_path=model_save_path)
     
     run["test/test_accuracy"].append(test_evaluation)
@@ -144,8 +147,10 @@ def main( run, language: str ):
 if __name__ =='__main__':
     seed = 12 # on basis of: https://arxiv.org/pdf/2002.06305.pdf
     language = 'pl'
+    tags = ["colab", "tests", "similarity", language]
+    name = "basic-colab-example"
     set_seeds( seed )
-    run = init_learning_env( ["colab", "tests", "similarity", language] ) # returned: neptune.Run object
+    run = init_learning_env( name, tags ) # returned: neptune.Run object
     main( run, language )
 
 
