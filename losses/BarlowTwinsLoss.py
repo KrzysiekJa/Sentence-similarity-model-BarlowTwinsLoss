@@ -1,7 +1,10 @@
 import torch
 from torch import nn, Tensor
 from typing import Iterable, Dict
-from ..sentence_transformer import SentenceTransformer
+import os, sys
+sys.path.append( os.path.join( os.path.dirname(os.path.abspath(__file__) ), '..') )
+# ugly code to achieve sentence_transformer module
+from sentence_transformer import SentenceTransformer
 
 
 class BarlowTwinsLoss(nn.Module):
