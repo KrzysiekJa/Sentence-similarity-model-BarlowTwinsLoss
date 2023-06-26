@@ -3,7 +3,7 @@ import shutil
 import random
 import numpy as np
 import torch
-import neptun
+import neptune
 
 
 def set_seeds(seed: int):
