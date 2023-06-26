@@ -85,14 +85,13 @@ def main( run, language: str ):
     dev_samples   = train_samples[: len(train_samples)//10] # first 10%
     train_samples = train_samples[len(train_samples)//10 :] # last 90%
     
+    ########################################################################
+    # Configuring training parameters and process objects
+    ########################################################################
     train_dataloader = DataLoader(train_samples, shuffle=True, batch_size=batch_size)
     log_dir = 'output/logs'
-    dev_evaluator = LossEvaluator(dev_samples, loss_model=train_loss, log_dir=log_dir, show_progress_bar=True, batch_size=batch_size)
-    
-    ########################################################################
-    # Configuring the training parameters
-    ########################################################################
     train_loss = BarlowTwinsLoss(model=model, lambda_=lambda_)
+    dev_evaluator = LossEvaluator(dev_samples, loss_model=train_loss, log_dir=log_dir, show_progress_bar=True, batch_size=batch_size)
     
     def neptune_callback(score, epoch, steps):
         global run
