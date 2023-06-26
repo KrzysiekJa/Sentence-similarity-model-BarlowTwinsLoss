@@ -1,7 +1,7 @@
 import torch
 from torch import nn, Tensor
 from typing import Iterable, Dict
-from .sentence_transformer import SentenceTransformer
+from ..sentence_transformer import SentenceTransformer
 
 
 class BarlowTwinsLoss(nn.Module):
