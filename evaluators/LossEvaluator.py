@@ -8,7 +8,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
-from sentence_transformers.evaluation import SentenceEvaluator, SimilarityFunction
+from sentence_transformers.evaluation import SentenceEvaluator, SimilarityFunction, EmbeddingSimilarityEvaluator
 from sentence_transformers.readers import InputExample
 
 logger = logging.getLogger(__name__)
