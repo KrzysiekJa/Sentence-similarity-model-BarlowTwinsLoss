@@ -19,9 +19,7 @@ def set_seeds(seed: int):
 
 def init_learning_env(name: str, tags_list: list):
     torch.cuda.empty_cache()
-    os.environ["NEPTUNE_PROJECT"] = "kjarek/tests"
     run = neptune.init_run(
-        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI3ZDBhYTUwZS0yYmI5LTQyMmEtYmEwYi1iNjFlMzUyYjY1NGMifQ==",
         capture_hardware_metrics=True,
         capture_stderr=True,
         capture_stdout=True
@@ -58,7 +56,6 @@ def set_neptun_time_perf(run, end, start):
 
 def neptun_final_steps(run, test_evaluation, language: str, model_save_path: str):    
     project_read_only = neptune.init_project(
-        api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI3ZDBhYTUwZS0yYmI5LTQyMmEtYmEwYi1iNjFlMzUyYjY1NGMifQ==",
         mode="read-only"
     )
     

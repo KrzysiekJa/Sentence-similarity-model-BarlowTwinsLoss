@@ -147,8 +147,8 @@ def main( run, language: str ):
 if __name__ =='__main__':
     seed = 12 # on basis of: https://arxiv.org/pdf/2002.06305.pdf
     language = 'en'
-    tags = ["colab", "tests", "similarity", language]
-    name = "basic-colab-example"
+    tags = ["athena", "slurm", "similarity", language]
+    name = "slurm-execution-script-en"
     set_seeds( seed )
     run = init_learning_env( name, tags ) # returned: neptune.Run object
     main( run, language )
