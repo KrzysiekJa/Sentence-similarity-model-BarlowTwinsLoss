@@ -56,7 +56,7 @@ def set_neptun_time_perf(run, end, start):
     return run
 
 
-def neptun_final_steps(run, language: str, model_save_path: str):    
+def neptun_final_steps(run, test_evaluation, language: str, model_save_path: str):    
     project_read_only = neptune.init_project(
         api_token="eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiI3ZDBhYTUwZS0yYmI5LTQyMmEtYmEwYi1iNjFlMzUyYjY1NGMifQ==",
         mode="read-only"

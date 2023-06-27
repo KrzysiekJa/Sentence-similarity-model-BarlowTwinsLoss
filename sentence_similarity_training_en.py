@@ -140,7 +140,7 @@ def main( run, language: str ):
     test_evaluation = test_evaluator(model, output_path=model_save_path)
     
     run["test/test_accuracy"].append(test_evaluation)
-    neptun_final_steps(run, language, model_save_path)
+    neptun_final_steps(run, test_evaluation, language, model_save_path)
 
 
 
