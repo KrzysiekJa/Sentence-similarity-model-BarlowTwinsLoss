@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class LossEvaluator(SentenceEvaluator):
     # On basis of: https://github.com/UKPLab/sentence-transformers/issues/336
     
-    def __init__(self, val_samples, loss_model: nn.Module = None, name: str = '', log_dir: str = None, show_progress_bar: bool = False, write_csv: bool = True, batch_size: int = 16):
+    def __init__(self, val_samples, run, loss_model: nn.Module = None, name: str = '', log_dir: str = None, show_progress_bar: bool = False, write_csv: bool = True, batch_size: int = 16):
 
         """
         Evaluate a model based on the loss function.
@@ -39,6 +39,7 @@ class LossEvaluator(SentenceEvaluator):
         self.loss_model = loss_model
         self.batch_size = batch_size
         self.val_samples = val_samples
+        self.run = run
         
         # move model to gpu:  lidija-jovanovska
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -93,13 +94,13 @@ class LossEvaluator(SentenceEvaluator):
         self.loss_model.zero_grad()
         self.loss_model.train()
         
-        run["train/val_loss"].append(final_loss)
+        self.run["train/val_loss"].append(final_loss)
 
         if self.val_samples:
             similarity_evaluator = EmbeddingSimilarityEvaluator.from_input_examples(
                 self.val_samples, batch_size=self.batch_size, main_similarity=SimilarityFunction.COSINE
             )
             evaluation_accuracy = similarity_evaluator(model)
-            run["train/val_accuracy"].append(evaluation_accuracy)
+            self.run["train/val_accuracy"].append(evaluation_accuracy)
 
         return final_loss

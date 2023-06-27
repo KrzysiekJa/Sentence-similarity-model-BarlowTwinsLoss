@@ -91,7 +91,7 @@ def main( run, language: str ):
     train_dataloader = DataLoader(train_samples, shuffle=True, batch_size=batch_size)
     log_dir = 'output/logs'
     train_loss = BarlowTwinsLoss(model=model, lambda_=lambda_)
-    dev_evaluator = LossEvaluator(dev_samples, loss_model=train_loss, log_dir=log_dir, show_progress_bar=True, batch_size=batch_size)
+    dev_evaluator = LossEvaluator(dev_samples, run, loss_model=train_loss, log_dir=log_dir, show_progress_bar=True, batch_size=batch_size)
     
     def neptune_callback(score, epoch, steps):
         global run
@@ -144,14 +144,13 @@ def main( run, language: str ):
 
 
 
-language = 'en'
-tags = ["colab", "tests", "similarity", language]
-name = "basic-colab-example"
-run = init_learning_env( name, tags ) # returned: neptune.Run object
-
 if __name__ =='__main__':
     seed = 12 # on basis of: https://arxiv.org/pdf/2002.06305.pdf
+    language = 'en'
+    tags = ["colab", "tests", "similarity", language]
+    name = "basic-colab-example"
     set_seeds( seed )
+    run = init_learning_env( name, tags ) # returned: neptune.Run object
     main( run, language )
 
 
