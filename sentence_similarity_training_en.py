@@ -143,13 +143,14 @@ def main( run, language: str ):
     neptun_final_steps(run, language, model_save_path)
 
 
+
+language = 'en'
 tags = ["colab", "tests", "similarity", language]
 name = "basic-colab-example"
 run = init_learning_env( name, tags ) # returned: neptune.Run object
 
 if __name__ =='__main__':
     seed = 12 # on basis of: https://arxiv.org/pdf/2002.06305.pdf
-    language = 'en'
     set_seeds( seed )
     main( run, language )
 
