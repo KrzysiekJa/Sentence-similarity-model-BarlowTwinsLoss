@@ -22,7 +22,7 @@ import tempfile
 from distutils.dir_util import copy_tree
 
 from sentence_transformers import __MODEL_HUB_ORGANIZATION__
-from sentence_transformers.evaluation import SentenceEvaluator, SimilarityFunction
+from sentence_transformers.evaluation import SentenceEvaluator, SimilarityFunction, EmbeddingSimilarityEvaluator
 from sentence_transformers.util import import_from_string, batch_to_device, fullname, snapshot_download
 from sentence_transformers.models import Transformer, Pooling, Dense
 from sentence_transformers.model_card_templates import ModelCardTemplate
