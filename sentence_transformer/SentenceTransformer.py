@@ -625,7 +625,7 @@ class SentenceTransformer(nn.Sequential):
         """
 
         global run # extra line
-        print(globals())
+        print(type(run))
         ##Add info to model card
         #info_loss_functions = "\n".join(["- {} with {} training examples".format(str(loss), len(dataloader)) for dataloader, loss in train_objectives])
         info_loss_functions =  []
