@@ -62,11 +62,11 @@ def neptun_final_steps(run, language: str, model_save_path: str):
         mode="read-only"
     )
     
-    run_pandas_df = project_read_only.fetch_runs_table(tag=["similarity", language]).to_pandas()
-    best_testing_result = run_pandas_df["test/test_accuracy"].iloc[0]
+    #run_pandas_df = project_read_only.fetch_runs_table(tag=["similarity", language]).to_pandas()
+    #best_testing_result = run_pandas_df["test/test_accuracy"].iloc[0]
     
-    if test_evaluation > best_testing_result:
-        run["model/model"].upload(model_save_path)
+    #if test_evaluation > best_testing_result:
+    run["model/model"].upload(model_save_path)
     shutil.rmtree(model_save_path)
     
     run.stop()
