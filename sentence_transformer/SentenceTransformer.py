@@ -593,7 +593,8 @@ class SentenceTransformer(nn.Sequential):
             checkpoint_path: str = None,
             checkpoint_save_steps: int = 500,
             checkpoint_save_total_limit: int = 0,
-            training_samples = None # extra line
+            training_samples = None, # extra line
+            run = None # extra line
             ):
         """
         Train the model with the given training objective
@@ -624,8 +625,6 @@ class SentenceTransformer(nn.Sequential):
         :param checkpoint_save_total_limit: Total number of checkpoints to store
         """
 
-        global run # extra line
-        print(type(run))
         ##Add info to model card
         #info_loss_functions = "\n".join(["- {} with {} training examples".format(str(loss), len(dataloader)) for dataloader, loss in train_objectives])
         info_loss_functions =  []

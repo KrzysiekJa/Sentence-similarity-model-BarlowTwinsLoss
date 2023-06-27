@@ -122,7 +122,8 @@ def main( run, language: str ):
               optimizer_params={'lr': params['optimizer']['lr'], 'eps': params['optimizer']['eps']},
               callback=neptune_callback,
               output_path=model_save_path,
-              training_samples=train_samples
+              training_samples=train_samples,
+              run=run
     )
     end = time.perf_counter()
     
