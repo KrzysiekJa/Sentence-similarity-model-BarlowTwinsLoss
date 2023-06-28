@@ -55,7 +55,6 @@ class LossEvaluator(SentenceEvaluator):
 
     def __call__(self, model, output_path: str = None, epoch: int = -1, steps: int = -1) -> float:
 
-        global run
         self.loss_model.eval()
 
         loss_value = 0
