@@ -40,8 +40,8 @@ def main( run, language: str ):
     model_name = os.environ.get("MODEL_NAME") # 'nli-distilroberta-base-v2' 'microsoft/deberta-base' 'allegro/herbert-base-cased'
     lambda_    = float( os.environ.get("LAMBDA_") )
     batch_size = 32
-    num_epochs = 4
-    model_save_path = 'output/fine_tuning_benchmark-'+model_name.replace('/', '_')+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M")
+    num_epochs = 6
+    model_save_path = 'output/fine_tuning_benchmark-'+model_name.replace('/', '_')+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     params = {
         "optimizer": {
             "type": "AdamW",
@@ -152,6 +152,5 @@ if __name__ =='__main__':
     set_seeds( seed )
     run = init_learning_env( name, tags ) # returned: neptune.Run object
     main( run, language )
-
 
 

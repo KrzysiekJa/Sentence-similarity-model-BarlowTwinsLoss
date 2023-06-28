@@ -17,13 +17,13 @@ logger = logging.getLogger(__name__)
 class LossEvaluator(SentenceEvaluator):
     # On basis of: https://github.com/UKPLab/sentence-transformers/issues/336
     
-    def __init__(self, val_samples, run, loss_model: nn.Module = None, name: str = '', log_dir: str = None, show_progress_bar: bool = False, write_csv: bool = True, batch_size: int = 16):
+    def __init__(self, samples, run, loss_model: nn.Module = None, name: str = '', log_dir: str = None, show_progress_bar: bool = False, write_csv: bool = True, batch_size: int = 16):
 
         """
         Evaluate a model based on the loss function.
         The returned score is loss value.
         The results are written in a CSV and Tensorboard logs.
-        :param val_samples: List[InputExample]
+        :param samples: List[InputExample]
         :param loss_model: loss module object
         :param name: Name for the output
         :param log_dir: path for tensorboard logs 
@@ -32,13 +32,13 @@ class LossEvaluator(SentenceEvaluator):
         :param batch_size: size of data batches
         """
 
-        self.loader = DataLoader(val_samples, shuffle=True, batch_size=batch_size)
+        self.loader = DataLoader(samples, shuffle=True, batch_size=batch_size)
         self.write_csv = write_csv
         self.logs_writer = SummaryWriter(log_dir=log_dir)
         self.name = name
         self.loss_model = loss_model
         self.batch_size = batch_size
-        self.val_samples = val_samples
+        self.samples = samples
         self.run = run
         
         # move model to gpu:  lidija-jovanovska
@@ -96,9 +96,9 @@ class LossEvaluator(SentenceEvaluator):
         
         self.run["train/val_loss"].append(final_loss)
 
-        if self.val_samples:
+        if self.samples:
             similarity_evaluator = EmbeddingSimilarityEvaluator.from_input_examples(
-                self.val_samples, batch_size=self.batch_size, main_similarity=SimilarityFunction.COSINE
+                self.samples, batch_size=self.batch_size, main_similarity=SimilarityFunction.COSINE
             )
             evaluation_accuracy = similarity_evaluator(model)
             self.run["train/val_accuracy"].append(evaluation_accuracy)
