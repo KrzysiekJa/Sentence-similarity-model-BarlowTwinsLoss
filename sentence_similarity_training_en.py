@@ -131,7 +131,6 @@ def main( run, language: str ):
     ########################################################################
     # Testing process
     ########################################################################
-    #model = SentenceTransformer(model_save_path)
     
     test_evaluator = EmbeddingSimilarityEvaluator.from_input_examples(
                 test_samples, 
