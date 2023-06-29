@@ -10,7 +10,7 @@
 source python_venv/bin/activate
 export NEPTUNE_API_TOKEN=""
 export NEPTUNE_PROJECT="kjarek/sentence-similarity-research"
-export LAMBDA_=lambda_
+export LAMBDA_=$1
 export MODEL_NAME="nli-distilroberta-base-v2"
 
 python Sentence-similarity-model-Barlow-Twins/sentence_similarity_training_en.py
