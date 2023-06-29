@@ -54,7 +54,7 @@ def set_neptun_time_perf(run, end, start):
     return run
 
 
-def neptun_final_steps(run, test_evaluation, language: str, model_save_path: str):    
+def neptun_final_steps(run, accuracy, language: str, model_save_path: str):    
     project_read_only = neptune.init_project(
         mode="read-only"
     )
@@ -62,7 +62,7 @@ def neptun_final_steps(run, test_evaluation, language: str, model_save_path: str
     run_pandas_df = project_read_only.fetch_runs_table(tag=["similarity", language]).to_pandas()
     best_testing_result = run_pandas_df["test/test_accuracy"].iloc[0] if "test/test_accuracy" in run_pandas_df else -1
     
-    if test_evaluation > best_testing_result:
+    if accuracy > best_testing_result:
         run["model/model"].upload(model_save_path)
     shutil.rmtree(model_save_path)
     

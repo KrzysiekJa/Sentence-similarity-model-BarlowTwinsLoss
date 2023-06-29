@@ -131,16 +131,17 @@ def main( run, language: str ):
     ########################################################################
     # Testing process
     ########################################################################
-    model = SentenceTransformer(model_save_path)
+    #model = SentenceTransformer(model_save_path)
     
     test_evaluator = EmbeddingSimilarityEvaluator.from_input_examples(
                 test_samples, 
+                batch_size=batch_size, 
                 main_similarity=SimilarityFunction.COSINE
     )
-    test_evaluation = test_evaluator(model, output_path=model_save_path)
+    test_accuracy = test_evaluator(model)
     
-    run["test/test_accuracy"].append(test_evaluation)
-    neptun_final_steps(run, test_evaluation, language, model_save_path)
+    run["test/test_accuracy"].append(test_accuracy)
+    neptun_final_steps(run, test_accuracy, language, model_save_path)
 
 
 
