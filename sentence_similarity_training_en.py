@@ -9,15 +9,10 @@ from datetime import datetime
 import torch
 from torch import nn, Tensor
 from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
 
 from sentence_transformers import util, InputExample
 from sentence_transformers.evaluation import SimilarityFunction, EmbeddingSimilarityEvaluator
-
-try:
-    from torch.utils.tensorboard import SummaryWriter
-except ImportError:
-    os.system('pip install tensorboardX')
-    from tensorboardX import SummaryWriter
 
 from sentence_transformer import SentenceTransformer
 from evaluators import LossEvaluator
