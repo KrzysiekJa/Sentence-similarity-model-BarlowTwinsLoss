@@ -101,5 +101,6 @@ class LossEvaluator(SentenceEvaluator):
             )
             evaluation_accuracy = similarity_evaluator(model)
             self.run["train/val_accuracy"].append(evaluation_accuracy)
+            print("train/val_accuracy:", evaluation_accuracy)
 
         return final_loss
