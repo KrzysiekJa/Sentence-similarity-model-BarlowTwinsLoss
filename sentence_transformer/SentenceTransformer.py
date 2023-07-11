@@ -759,7 +759,6 @@ class SentenceTransformer(nn.Sequential):
                 )
                 evaluation_accuracy = similarity_evaluator(loss_model.model)
                 run["train/accuracy"].append(evaluation_accuracy)
-                print("train/accuracy:", evaluation_accuracy)
 
             self._eval_during_training(evaluator, output_path, save_best_model, epoch, -1, callback)
 
