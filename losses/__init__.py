@@ -1,1 +1,2 @@
 from .BarlowTwinsLoss import BarlowTwinsLoss
+from .CosineSimilarityLoss import CosineSimilarityLoss
