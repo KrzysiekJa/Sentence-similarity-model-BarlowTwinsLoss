@@ -5,6 +5,7 @@ import math
 from sentence_transformers import util
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import TrainingArguments, Trainer
+from transformers.integrations import NeptuneCallback # !!!
 from datasets import Dataset, load_metric
 
 from utility_functions import set_seeds
