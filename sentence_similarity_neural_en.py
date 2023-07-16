@@ -5,7 +5,7 @@ import math
 from sentence_transformers import util
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import TrainingArguments, Trainer
-from datasets import DatasetDict, load_metric
+from datasets import Dataset, load_metric
 
 from utility_functions import set_seeds
 
@@ -55,7 +55,9 @@ with gzip.open(sts_dataset_path, 'rt', encoding='utf8') as fIn:
         else:
             train_samples.append( sample )
 
-datasets = DatasetDict({"train": train_samples, "dev": dev_samples, "test": test_samples})
+train_dataset = Dataset.from_list(train_samples)
+dev_dataset  = Dataset.from_list(dev_samples)
+test_dataset = Dataset.from_list(test_samples)
 ########################################################################
 # Configuring training parameters and process objects
 ########################################################################
@@ -65,7 +67,9 @@ tokenizer = AutoTokenizer.from_pretrained( model_name )
 def preprocess_function( examples ):
     return tokenizer(examples["sentence1"], examples["sentence2"], padding="max_length", truncation=True)
 
-encoded_datasets = datasets.map( preprocess_function, batched=True )
+train_dataset = train_dataset.map( preprocess_function, batched=True )
+dev_dataset  = dev_dataset.map( preprocess_function, batched=True )
+test_dataset = test_dataset.map( preprocess_function, batched=True )
 
 
 eval_steps = (len(train_dataset)/batch_size) // 10
@@ -111,11 +115,11 @@ training_args = TrainingArguments(
 trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=encoded_datasets['train'].shuffle(seed=seed),
-    eval_dataset=encoded_datasets['dev'].shuffle(seed=seed),
+    train_dataset=train_dataset.shuffle(seed=seed),
+    eval_dataset=dev_dataset.shuffle(seed=seed),
     compute_metrics=compute_metrics
 )
 trainer.train()
 
-test_results = trainer.predict( encoded_datasets['test'] )
+test_results = trainer.predict( test_dataset )
 
