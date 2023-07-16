@@ -89,6 +89,7 @@ def compute_metrics( eval_predictions ):
     #cosine_scores = torch.cosine_similarity( predictions[0], predictions[1] )
     return metric.compute( predictions=cosine_scores, references=labels )
 
+neptune_callback = NeptuneCallback()
 ########################################################################
 # Model training and testing
 ########################################################################
@@ -110,7 +111,7 @@ training_args = TrainingArguments(
     save_strategy='no',
     load_best_model_at_end=False,
     seed=seed,
-    report_to="neptune"
+    report_to="none"
 )
 
 trainer = Trainer(
@@ -118,7 +119,8 @@ trainer = Trainer(
     args=training_args,
     train_dataset=train_dataset.shuffle(seed=seed),
     eval_dataset=dev_dataset.shuffle(seed=seed),
-    compute_metrics=compute_metrics
+    compute_metrics=compute_metrics,
+    callbacks=[ neptune_callback ]
 )
 trainer.train()
 
