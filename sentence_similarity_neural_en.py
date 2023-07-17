@@ -87,9 +87,9 @@ def compute_metrics( eval_predictions ):
     predictions, labels = eval_predictions
     predictions = predictions[:, 0]
     #cosine_scores = torch.cosine_similarity( predictions[0], predictions[1] )
-    return metric.compute( predictions=cosine_scores, references=labels )
+    return metric.compute( predictions=predictions, references=labels )
 
-neptune_callback = NeptuneCallback()
+neptune_callback = NeptuneCallback( log_parameters=False )
 ########################################################################
 # Model training and testing
 ########################################################################
