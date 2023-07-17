@@ -35,6 +35,7 @@ lr = 2e-5
 w_decay = 0.01
 eps = 1e-12
 
+print('\nMODEL_NAME', model_name, '\n')
 ########################################################################
 # Loading and preparing data
 ########################################################################
@@ -89,7 +90,7 @@ def compute_metrics( eval_predictions ):
     #cosine_scores = torch.cosine_similarity( predictions[0], predictions[1] )
     return metric.compute( predictions=predictions, references=labels )
 
-neptune_callback = NeptuneCallback( log_parameters=False )
+neptune_callback = NeptuneCallback()
 ########################################################################
 # Model training and testing
 ########################################################################
@@ -126,3 +127,4 @@ trainer.train()
 
 test_results = trainer.predict( test_dataset )
 
+print('\nTest results:', test_results, '\n')
