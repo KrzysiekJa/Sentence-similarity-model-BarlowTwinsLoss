@@ -135,6 +135,7 @@ def main( run, language: str ):
     test_accuracy = test_evaluator(model)
     
     run["test/test_accuracy"].append(test_accuracy)
+    print("test/test_accuracy:", test_accuracy)
     neptun_final_steps(run, test_accuracy, language, model_save_path)
 
 
