@@ -2,6 +2,7 @@ import os
 import gzip
 import csv
 import math
+import torch
 from sentence_transformers import util
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import TrainingArguments, Trainer
@@ -14,6 +15,7 @@ from utility_functions import set_seeds
 
 seed = 12
 set_seeds( seed )
+torch.cuda.empty_cache()
 
 ########################################################################
 # Checking if dataset exsist. If not, needed to download and extract
