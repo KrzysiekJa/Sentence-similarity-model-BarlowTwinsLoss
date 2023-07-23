@@ -88,7 +88,10 @@ metric = load_metric('glue', 'stsb')
 
 def compute_metrics( eval_predictions ):
     predictions, labels = eval_predictions
-    predictions = predictions[:]
+    if model_name.startswith("microsoft/deberta-"):
+        predictions = predictions[:]
+    else:
+        predictions = predictions[:, 0]
     #cosine_scores = torch.cosine_similarity( predictions[0], predictions[1] )
     return metric.compute( predictions=predictions, references=labels )
 
