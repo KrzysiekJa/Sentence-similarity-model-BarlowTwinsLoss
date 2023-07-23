@@ -31,7 +31,7 @@ if not os.path.exists(sts_dataset_path):
 ########################################################################
 
 model_name = os.environ.get("MODEL_NAME")
-batch_size = 16
+batch_size = 8
 num_epochs = 6
 lr = 2e-5
 w_decay = 0.01
