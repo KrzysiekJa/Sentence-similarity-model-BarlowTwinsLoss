@@ -7,8 +7,7 @@ from sentence_transformers import util
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import TrainingArguments, Trainer
 from transformers.integrations import NeptuneCallback # !!!
-from datasets import load_dataset
-import evaluate
+from datasets import load_dataset, load_metric
 
 from utility_functions import set_seeds
 
@@ -50,7 +49,7 @@ model = AutoModelForSequenceClassification.from_pretrained( model_name, num_labe
 # regression model, so num_labels=1
 
 
-metric = evaluate.load('glue', 'stsb')
+metric = load_metric('glue', 'stsb')
 
 def compute_metrics( eval_predictions ):
     predictions, labels = eval_predictions
