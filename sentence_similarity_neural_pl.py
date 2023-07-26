@@ -62,7 +62,7 @@ test_dataset = Dataset.from_list(test_samples)
 tokenizer = AutoTokenizer.from_pretrained( model_name )
 
 def preprocess_function( examples ):
-    return tokenizer(examples["sentence_A"], examples["sentence_B"], padding="max_length", truncation=True)
+    return tokenizer(examples["sentence_A"], examples["sentence_B"], padding='longest', truncation=True) # longest !
 
 train_dataset = train_dataset.map( preprocess_function, batched=True )
 dev_dataset  = dev_dataset.map( preprocess_function, batched=True )
@@ -108,7 +108,7 @@ training_args = TrainingArguments(
     seed=seed,
     report_to="none"
 )
-print('>>> >>> ')
+
 trainer = Trainer(
     model=model,
     args=training_args,
