@@ -108,7 +108,7 @@ training_args = TrainingArguments(
     seed=seed,
     report_to="none"
 )
-
+print('>>> >>> ')
 trainer = Trainer(
     model=model,
     args=training_args,
