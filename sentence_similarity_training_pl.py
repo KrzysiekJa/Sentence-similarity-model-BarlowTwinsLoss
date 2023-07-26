@@ -60,10 +60,10 @@ def main( run, language: str ):
     ########################################################################
     # Extra functions
     ########################################################################
-    def prepare_samples(reader):
+    def prepare_samples(dataset):
         samples = []
 
-        for row in reader:
+        for row in dataset:
             score = float(row['relatedness_score']) / 5.0  # Normalize score to range 0 ... 1
             inp_example = InputExample(texts=[row['sentence_A'], row['sentence_B']], label=score)
             samples.append(inp_example)

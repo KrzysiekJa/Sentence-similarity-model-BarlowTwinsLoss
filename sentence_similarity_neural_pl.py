@@ -7,7 +7,7 @@ from sentence_transformers import util
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import TrainingArguments, Trainer
 from transformers.integrations import NeptuneCallback # !!!
-from datasets import load_dataset, load_metric
+from datasets import Dataset, load_dataset, load_metric
 
 from utility_functions import set_seeds
 
@@ -33,13 +33,41 @@ print('\nMODEL_NAME', model_name, '\n')
 # Loading and preparing data
 ########################################################################
 
+def prepare_samples(dataset):
+    samples = []
+
+    for row in dataset:
+        score  = float(row['relatedness_score']) / 5.0  # to range <0,1>
+        sample = dict(sentence_A=row['sentence_A'], sentence_B=row['sentence_B'], label=score)
+        samples.append(sample)
+
+    return samples
+
+
 train_dataset = load_dataset('cdsc', 'cdsc-r', split='train[:-90%]') # last 90%
 dev_dataset   = load_dataset('cdsc', 'cdsc-r', split='train[:10%]') # first 10%
 test_dataset  = load_dataset('cdsc', 'cdsc-r', split='validation')
 
+train_samples = prepare_samples(train_dataset)
+dev_samples  = prepare_samples(dev_dataset)
+test_samples = prepare_samples(test_dataset)
+
+train_dataset = Dataset.from_list(train_samples)
+dev_dataset  = Dataset.from_list(dev_samples)
+test_dataset = Dataset.from_list(test_samples)
 ########################################################################
 # Configuring training parameters and process objects
 ########################################################################
+
+tokenizer = AutoTokenizer.from_pretrained( model_name )
+
+def preprocess_function( examples ):
+    return tokenizer(examples["sentence_A"], examples["sentence_B"], padding="max_length", truncation=True)
+
+train_dataset = train_dataset.map( preprocess_function, batched=True )
+dev_dataset  = dev_dataset.map( preprocess_function, batched=True )
+test_dataset = test_dataset.map( preprocess_function, batched=True )
+
 
 eval_steps = (len(train_dataset)/batch_size) // 10
 warmup_steps = math.ceil( (len(train_dataset)/batch_size) * num_epochs * 0.1 )
