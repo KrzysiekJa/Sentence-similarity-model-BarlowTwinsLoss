@@ -33,7 +33,7 @@ def main( run, language: str ):
     model_name = os.environ.get("MODEL_NAME") # 'allegro/herbert-base-cased'
     lambda_    = float( os.environ.get("LAMBDA_") )
     batch_size = 32
-    num_epochs = 6
+    num_epochs = 20
     model_save_path = 'output/fine_tuning_benchmark-'+model_name.replace('/', '_')+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     params = {
         "optimizer": {
