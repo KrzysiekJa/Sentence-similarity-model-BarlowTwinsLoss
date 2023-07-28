@@ -28,6 +28,7 @@ plt.rcParams['axes.linewidth'] = lwidth
 plt.rcParams['legend.handlelength'] = lhandle
 
 
+
 ########################################################################
 # English
 ########################################################################
@@ -380,7 +381,7 @@ if ax.get_ylim()[0] < 0: #bottom
 
 plt.xlabel( 'Liczba epok', labelpad=10 )
 plt.xticks( x )
-plt.ylabel( 'Dokładność (accuracy), %', labelpad=20 )
+plt.ylabel( 'Współczynnik korelacji rang Spearmana', labelpad=20 )
 plt.title( title, pad=10 )
 plt.legend( loc='best' )
     
