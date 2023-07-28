@@ -343,17 +343,17 @@ test_spearmanr_neural = 0.9284641669450696
 
 x = range(1, len(train_0_01)+1)
 # scalling from <0,1> to range <0, 100>
-train_0_01 = [abs(i*100) for i in train_0_01]
-validation_0_01 = [abs(i*100) for i in validation_0_01]
-train_0_005 = [abs(i*100) for i in train_0_005]
-validation_0_005 = [abs(i*100) for i in validation_0_005]
-train_0_001 = [abs(i*100) for i in train_0_001]
-validation_0_001 = [abs(i*100) for i in validation_0_001]
-train_0_0005 = [abs(i*100) for i in train_0_0005]
-validation_0_0005 = [abs(i*100) for i in validation_0_0005]
-train_0_0001 = [abs(i*100) for i in train_0_0001]
-validation_0_0001 = [abs(i*100) for i in validation_0_0001]
-validation_neural = [abs(i*100) for i in validation_neural]
+train_0_01 = [i*100 for i in train_0_01]
+validation_0_01 = [i*100 for i in validation_0_01]
+train_0_005 = [i*100 for i in train_0_005]
+validation_0_005 = [i*100 for i in validation_0_005]
+train_0_001 = [i*100 for i in train_0_001]
+validation_0_001 = [i*100 for i in validation_0_001]
+train_0_0005 = [i*100 for i in train_0_0005]
+validation_0_0005 = [i*100 for i in validation_0_0005]
+train_0_0001 = [i*100 for i in train_0_0001]
+validation_0_0001 = [i*100 for i in validation_0_0001]
+validation_neural = [i*100 for i in validation_neural]
 
 
 xsize = 8
@@ -376,12 +376,9 @@ ax = plt.gca()
 ax.xaxis.set_minor_locator( MultipleLocator(1) )
 ax.yaxis.set_minor_locator( MultipleLocator(.5) )
 
-if ax.get_ylim()[0] < 0: #bottom
-    ax.set_ylim(bottom=0)
-
 plt.xlabel( 'Liczba epok', labelpad=10 )
 plt.xticks( x )
-plt.ylabel( 'Współczynnik korelacji rang Spearmana', labelpad=20 )
+plt.ylabel( r'$\rho$ Spearmana', labelpad=20 )
 plt.title( title, pad=10 )
 plt.legend( loc='best' )
     
