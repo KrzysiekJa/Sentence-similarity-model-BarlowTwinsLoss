@@ -53,15 +53,6 @@ stsb_roberta_test_0_0005 = 0.8421929999390478
 
 
 x = range(1, len(nli_distilroberta_train_0_0005)+1)
-# scalling from <0,1> to range <0, 100>
-nli_distilroberta_train_0_0005 = [i*100 for i in nli_distilroberta_train_0_0005]
-nli_distilroberta_validation_0_0005 = [i*100 for i in nli_distilroberta_validation_0_0005]
-nli_distilroberta_train_0_0001 = [i*100 for i in nli_distilroberta_train_0_0001]
-nli_distilroberta_validation_0_0001 = [i*100 for i in nli_distilroberta_validation_0_0001]
-stsb_roberta_train_0_005 = [i*100 for i in stsb_roberta_train_0_005]
-stsb_roberta_validation_0_005 = [i*100 for i in stsb_roberta_validation_0_005]
-stsb_roberta_train_0_0005 = [i*100 for i in stsb_roberta_train_0_0005]
-stsb_roberta_validation_0_0005 = [i*100 for i in stsb_roberta_validation_0_0005]
 
 plt.plot( x, nli_distilroberta_train_0_0005, '-o', label=r'NLI-DistilRoBERTa-base-v2, $\lambda$ = 0.0005, tren.', lw=1.1, ms=4 , c='#FF9A49' )
 plt.plot( x, nli_distilroberta_validation_0_0005, '-D', label=r'NLI-DistilRoBERTa-base-v2, $\lambda$ = 0.0005, wal.', lw=0.8, ms=3.2, c='#FFCC66' )
@@ -93,15 +84,6 @@ plt.plot( x, stsb_roberta_validation_0_0005, '-D', label=r'STS-B-RoBERTa-base-v2
 #
 #
 # x = range(1, len(pl_roberta_base_train_0_005)+1)
-# # scalling from <0,1> to range <0, 100>
-# pl_roberta_base_train_0_005 = [i*100 for i in pl_roberta_base_train_0_005]
-# pl_roberta_base_validation_0_005 = [i*100 for i in pl_roberta_base_validation_0_005]
-# pl_roberta_base_train_0_0005 = [i*100 for i in pl_roberta_base_train_0_0005]
-# pl_roberta_base_validation_0_0005 = [i*100 for i in pl_roberta_base_validation_0_0005]
-# pl_roberta_large_train_0_0005 = [i*100 for i in pl_roberta_large_train_0_0005]
-# pl_roberta_large_validation_0_0005 = [i*100 for i in pl_roberta_large_validation_0_0005]
-# pl_roberta_large_train_0_0001 = [i*100 for i in pl_roberta_large_train_0_0001]
-# pl_roberta_large_validation_0_0001 = [i*100 for i in pl_roberta_large_validation_0_0001]
 #
 # plt.plot( x, pl_roberta_base_train_0_005, '-o', label=r'Polish-RoBERTa-base-v1, $\lambda$ = 0.005, tren.', lw=1.1, ms=4 , c='#D21E05' )
 # plt.plot( x, pl_roberta_base_validation_0_005, '-D', label=r'Polish-RoBERTa-base-v1, $\lambda$ = 0.005, wal.', lw=0.8, ms=3.2, c='#F39E9E' )

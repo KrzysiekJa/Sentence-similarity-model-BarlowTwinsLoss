@@ -342,19 +342,6 @@ test_spearmanr_neural = 0.9284641669450696
 
 
 x = range(1, len(train_0_01)+1)
-# scalling from <0,1> to range <0, 100>
-train_0_01 = [i*100 for i in train_0_01]
-validation_0_01 = [i*100 for i in validation_0_01]
-train_0_005 = [i*100 for i in train_0_005]
-validation_0_005 = [i*100 for i in validation_0_005]
-train_0_001 = [i*100 for i in train_0_001]
-validation_0_001 = [i*100 for i in validation_0_001]
-train_0_0005 = [i*100 for i in train_0_0005]
-validation_0_0005 = [i*100 for i in validation_0_0005]
-train_0_0001 = [i*100 for i in train_0_0001]
-validation_0_0001 = [i*100 for i in validation_0_0001]
-validation_neural = [i*100 for i in validation_neural]
-
 
 xsize = 8
 ysize = 5
