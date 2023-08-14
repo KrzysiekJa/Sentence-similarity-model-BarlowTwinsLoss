@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 
 
-fsize = 13
+fsize = 15
 tsize = 13
 tdir = 'in'
 major = 5.0
@@ -84,11 +84,11 @@ plt.plot( x, pl_roberta_large_validation_0_0005, '-D', label=r'Polish-RoBERTa-la
 title = 'Liczba epok: 50'
 
 ax = plt.gca()
-ax.xaxis.set_minor_locator( MultipleLocator(1) )
+ax.xaxis.set_minor_locator( MultipleLocator(2) )
 ax.yaxis.set_minor_locator( MultipleLocator(.005) )
 
 plt.xlabel( 'Liczba epok', labelpad=10 )
-plt.xticks( x )
+plt.xticks( np.arange(1, len(x)+1, 2) )
 plt.ylabel( r'$\rho$ Spearmana', labelpad=20 )
 plt.title( title, pad=10 )
 plt.legend( loc='best' )
