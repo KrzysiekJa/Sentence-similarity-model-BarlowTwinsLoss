@@ -345,7 +345,7 @@ x = range(1, len(train_0_01)+1)
 
 xsize = 8
 ysize = 5
-plt.figure( figsize=(xsize, ysize) )
+plt.figure( figsize=(xsize, ysize) ).set_size_inches(12, 8)
 
 plt.plot( x, train_0_01, '-o', label=r'$\lambda$ = 0.01, trening', lw=1.1, ms=4 , c='#FF9A49' )
 plt.plot( x, validation_0_01, '-D', label=r'$\lambda$ = 0.01, walidacja', lw=0.8, ms=3.2, c='#FFCC66' )
@@ -357,7 +357,7 @@ plt.plot( x, train_0_0005, '-o', label=r'$\lambda$ = 0.0005, trening', lw=1.1, m
 plt.plot( x, validation_0_0005, '-D', label=r'$\lambda$ = 0.0005, walidacja', lw=0.8, ms=3.2, c='#79C1E8' )
 plt.plot( x, train_0_0001, '-o', label=r'$\lambda$ = 0.0001, trening', lw=1.1, ms=4 , c='#188977' )
 plt.plot( x, validation_0_0001, '-D', label=r'$\lambda$ = 0.0001, walidacja', lw=0.8, ms=3.2, c='#6FC486' )
-plt.plot( x, validation_neural, '--D', label=r'Model solowo, wal.', lw=1.1, ms=4, c='k' ) # spearmanr 
+plt.plot( x, validation_neural, '--D', label=r'Klasyczne rozw., wal.', lw=1.1, ms=4, c='k' ) # spearmanr 
 
 ax = plt.gca()
 ax.xaxis.set_minor_locator( MultipleLocator(1) )
@@ -368,7 +368,12 @@ plt.xticks( x )
 plt.ylabel( r'$\rho$ Spearmana', labelpad=20 )
 plt.title( title, pad=10 )
 plt.legend( loc='best' )
-    
-plt.show()
 
+#plt.show()
+plt.savefig(f'plot_{title}.jpg', 
+               bbox_inches='tight', 
+               transparent=True,
+               pad_inches=0.1, 
+               dpi=200
+            )
 

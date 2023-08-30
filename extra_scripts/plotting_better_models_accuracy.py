@@ -29,7 +29,7 @@ plt.rcParams['legend.handlelength'] = lhandle
 
 xsize = 8
 ysize = 5
-plt.figure( figsize=(xsize, ysize) )
+plt.figure( figsize=(xsize, ysize) ).set_size_inches(12, 8)
 
 
 
@@ -108,5 +108,11 @@ plt.ylabel( r'$\rho$ Spearmana', labelpad=20 )
 plt.title( title, pad=10 )
 plt.legend( loc='best' )
     
-plt.show()
+#plt.show()
+plt.savefig(f'plot_{title}.jpg', 
+               bbox_inches='tight', 
+               transparent=True,
+               pad_inches=0.1, 
+               dpi=200
+            )
 
