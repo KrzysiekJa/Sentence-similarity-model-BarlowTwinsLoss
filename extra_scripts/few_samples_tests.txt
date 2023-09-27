@@ -1,0 +1,19 @@
+########################################################################
+# English
+########################################################################
+# sentence-transformers/nli-distilroberta-base-v2
+nli_distilroberta_train_0_0005: 
+nli_distilroberta_train_0_0001: 
+# sentence-transformers/stsb-roberta-base-v2
+stsb_roberta_train_0_005: 
+stsb_roberta_train_0_0005: 
+
+########################################################################
+# Polski
+########################################################################
+# sdadas/polish-roberta-base-v1
+pl_roberta_base_train_0_005:
+pl_roberta_base_train_0_0005:
+# sdadas/polish-roberta-large-v2
+pl_roberta_large_train_0_0005:
+pl_roberta_large_train_0_0001:
