@@ -148,7 +148,7 @@ def main( run, language: str ):
         ["Ateński dowódca powiada, iż dysponował zbyt małą liczbą statków."],
         batch_size=1, convert_to_numpy=True
     )
-    embeddings2 = model.encode(
+    embeddings3 = model.encode(
         ["Chłopiec mówi tylko, że miał siedem złotych."],
         batch_size=1, convert_to_numpy=True
     )
