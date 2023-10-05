@@ -22,7 +22,11 @@ stsb_roberta_train_0_0005:
 ########################################################################
 # sdadas/polish-roberta-base-v1
 pl_roberta_base_train_0_005:
+0.8078805208206177 / 0.6805239915847778
 pl_roberta_base_train_0_0005:
+0.8551721572875977 / 0.8181968331336975
 # sdadas/polish-roberta-large-v2
 pl_roberta_large_train_0_0005:
+0.6944618225097656 / 0.304024338722229
 pl_roberta_large_train_0_0001:
+0.7973603010177612 / 0.4720102548599243
