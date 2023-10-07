@@ -135,46 +135,6 @@ def main( run, language: str ):
     test_accuracy = test_evaluator(model)
     
     run["test/test_accuracy"].append(test_accuracy)
-    ########################################################################
-    # tmp tests
-    ########################################################################
-    from sklearn.metrics.pairwise import paired_cosine_distances
-    
-    embeddings1 = model.encode(
-        ["A soccer game with multiple males playing."],
-        batch_size=1, convert_to_numpy=True
-    )
-    embeddings2 = model.encode(
-        ["Some men are playing a sport."],
-        batch_size=1, convert_to_numpy=True
-    )
-    embeddings3 = model.encode(
-        ["A group of men playing a baseball game."],
-        batch_size=1, convert_to_numpy=True
-    )
-    cosine_scores = 1 - paired_cosine_distances( embeddings1, embeddings2 )
-    run["test/sentences_similar_accuracy"].append( cosine_scores )
-    cosine_scores = 1 - paired_cosine_distances( embeddings1, embeddings3 )
-    run["test/sentences_dissimilar_accuracy"].append( cosine_scores )
-    
-    embeddings4 = model.encode(
-        ["Researchers announced Thursday they've completed the genetic blueprint of the blight-causing culprit responsible for sudden oak death."],
-        batch_size=1, convert_to_numpy=True
-    )
-    embeddings5 = model.encode(
-        ["The genome of the fungal pathogen that causes Sudden Oak Death has been sequenced by US scientists."],
-        batch_size=1, convert_to_numpy=True
-    )
-    embeddings6 = model.encode(
-        ["Researchers announced Thursday they've completed the sketch of the blight-causing culprit responsible for sudden people death."],
-        batch_size=1, convert_to_numpy=True
-    )
-    cosine_scores = 1 - paired_cosine_distances( embeddings4, embeddings5 )
-    run["test/sentences_similar_accuracy_1"].append( cosine_scores )
-    cosine_scores = 1 - paired_cosine_distances( embeddings4, embeddings6 )
-    run["test/sentences_dissimilar_accuracy_1"].append( cosine_scores )
-    
-    ########################################################################
     neptun_final_steps(run, test_accuracy, language, model_save_path)
 
 
