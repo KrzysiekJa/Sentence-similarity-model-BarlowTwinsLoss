@@ -135,29 +135,6 @@ def main( run, language: str ):
     test_accuracy = test_evaluator(model)
     
     run["test/test_accuracy"].append(test_accuracy)
-    ########################################################################
-    # tmp tests
-    ########################################################################
-    from sklearn.metrics.pairwise import paired_cosine_distances
-    
-    embeddings1 = model.encode(
-        ["Tucydydes mówi tylko, że miał siedem okrętów."],
-        batch_size=1, convert_to_numpy=True
-    )
-    embeddings2 = model.encode(
-        ["Ateński dowódca powiada, iż dysponował zbyt małą liczbą statków."],
-        batch_size=1, convert_to_numpy=True
-    )
-    embeddings3 = model.encode(
-        ["Chłopiec mówi tylko, że miał siedem złotych."],
-        batch_size=1, convert_to_numpy=True
-    )
-    cosine_scores = 1 - paired_cosine_distances( embeddings1, embeddings2 )
-    run["test/sentences_similar_accuracy"].append( cosine_scores )
-    cosine_scores = 1 - paired_cosine_distances( embeddings1, embeddings3 )
-    run["test/sentences_dissimilar_accuracy"].append( cosine_scores )
-    
-    ########################################################################
     neptun_final_steps(run, test_accuracy, language, model_save_path)
 
 
